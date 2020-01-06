@@ -19,6 +19,12 @@ set(husky husky-lib husky-io husky-core husky-base)
 
 ### Applications
 
+# SemiCluster
+add_executable(SemiCluster semiclustering.cpp)
+target_link_libraries(SemiCluster ${husky})
+target_link_libraries(SemiCluster ${HUSKY_EXTERNAL_LIB})
+husky_default_properties(SemiCluster)
+
 # Aggregator
 add_executable(Aggregator aggregator.cpp)
 target_link_libraries(Aggregator ${husky})
