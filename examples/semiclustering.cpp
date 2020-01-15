@@ -173,6 +173,9 @@ void semicluster() {
             } else {
                 // for each cluster, enter v and proceed
                 for (SemiCluster& c : scch.get(v)) {
+                    SemiCluster nC(c);
+                    nC.addToCluster(v.id(), v.neighbors, vMax, fB);
+                    v.clusters.push_back(nC);
                 }
             }
 
