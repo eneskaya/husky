@@ -10,6 +10,11 @@
 
 class SemiCluster {
    public:
+    SemiCluster();
+    SemiCluster(const SemiCluster& rhs) {
+        semiScore = rhs.semiScore;
+        members = rhs.members;
+    }
     float semiScore;
     std::vector<int> members;
 
@@ -33,7 +38,7 @@ class SemiCluster {
      */
     bool addToCluster(int newVertexId, std::vector<std::pair<int, float>> edges, int v_max, float fB) {
         // abort if Vmax is reached
-        if (members.size() == v_max)
+        if (members.size() == v_max || members.begin(), members.end(), newVertexId) != members.end())
             return false;
 
         int innerWeight = 0;
@@ -62,7 +67,7 @@ class SemiCluster {
 
 template <typename MsgT>
 struct UnionCombiner {
-    static void combine(std::vector<MsgT>& u1, std::vector<MsgT>& u2) {
+    static void combine(std::vector<MsgT>& u1, std::vector<MsgT> const& u2) {
         for (MsgT x : u2) {
             u1.push_back(x);
         }
@@ -166,8 +171,9 @@ void semicluster() {
 
                 v.clusters.push_back(s);
             } else {
-                // std::vector<SemiCluster> msg = scch.get(v);
-                // // ...
+                // for each cluster, enter v and proceed
+                for (SemiCluster& c : scch.get(v)) {
+                }
             }
 
             for (auto& nb : v.neighbors) {
