@@ -38,7 +38,7 @@ class SemiCluster {
      */
     bool addToCluster(int newVertexId, std::vector<std::pair<int, float>> edges, int v_max, float fB) {
         // abort if Vmax is reached
-        if (members.size() == v_max || members.begin(), members.end(), newVertexId) != members.end())
+        if (members.size() == v_max || std::find(members.begin(), members.end(), newVertexId) != members.end())
             return false;
 
         int innerWeight = 0;
