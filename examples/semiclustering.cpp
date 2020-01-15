@@ -1,65 +1,79 @@
+#include <algorithm>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 #include "boost/tokenizer.hpp"
 
 #include "core/engine.hpp"
 #include "io/input/inputformat_store.hpp"
+#include "lib/aggregator_factory.hpp"
 
-class SemiCluster
-{
-    public:
-        float semiScore;
-        std::vector<int> members;
+class SemiCluster {
+   public:
+    float semiScore;
+    std::vector<int> members;
 
-        // Serialization and deserialization
-        friend husky::BinStream& operator<<(husky::BinStream& stream, const SemiCluster& c) {
-            stream << c.semiScore << c.members;
-            return stream;
-        }
-        friend husky::BinStream& operator>>(husky::BinStream& stream, SemiCluster& c) {
-            stream >> c.semiScore >> c.members;
-            return stream;
-        }
+    // Serialization and deserialization
+    friend husky::BinStream& operator<<(husky::BinStream& stream, const SemiCluster& c) {
+        stream << c.semiScore << c.members;
+        return stream;
+    }
+    friend husky::BinStream& operator>>(husky::BinStream& stream, SemiCluster& c) {
+        stream >> c.semiScore >> c.members;
+        return stream;
+    }
 
-        /**
-         * Add a new vertex to this cluster, by appending to members.
-         * Also update the semiScore.
-         * For this, we look into the edges of the new vertex.
-         * Iterating over the edges, for each edge u, we will check wether it is in the members list already.
-         * If yes, the weight of that edge is added to innerWeight.
-         * If no, the weight of that edge is added to outerWeight.
-         * 
-         */
-        void addToCluster(int newVertexId, std::vector<std::pair<int, float>> edges) {
-            int innerWeight = 0;
-            int outerWeight = 0;
+    /**
+     * Add a new vertex to this cluster, by appending to members.
+     * Also update the semiScore.
+     * For this, we look into the edges of the new vertex.
+     * Iterating over the edges, for each edge u, we will check wether it is in the members list already.
+     * If yes, the weight of that edge is added to innerWeight.
+     * If no, the weight of that edge is added to outerWeight.
+     */
+    bool addToCluster(int newVertexId, std::vector<std::pair<int, float>> edges, int v_max, float fB) {
+        // abort if Vmax is reached
+        if (members.size() == v_max)
+            return false;
 
-            members.push_back(newVertexId);
+        int innerWeight = 0;
+        int outerWeight = 0;
 
-            for (std::pair<int, float> e : edges) {
-                int u = e.first;
-                float weight = e.second;
-                
-                // If u is not in the in the members list, it is an outEdge (outside of cluster) 
-                // https://stackoverflow.com/questions/571394/how-to-find-out-if-an-item-is-present-in-a-stdvector
-                if (std::find(members.begin(), members.end(), u) != members.end()) {
-                    outerWeight += weight;
-                } else {
-                    innerWeight += weight;
-                }
+        members.push_back(newVertexId);
+
+        for (std::pair<int, float> e : edges) {
+            int u = e.first;
+            float weight = e.second;
+
+            // If u is not in the in the members list, it is an outEdge (outside of cluster)
+            // https://stackoverflow.com/questions/571394/how-to-find-out-if-an-item-is-present-in-a-stdvector
+            if (std::find(members.begin(), members.end(), u) != members.end()) {
+                outerWeight += weight;
+            } else {
+                innerWeight += weight;
             }
-
-            // recalculate S_c
         }
+
+        // compute S_c
+        semiScore = (innerWeight - fB * outerWeight) / ((members.size() * (members.size() - 1)) / 2);
+        return true;
+    }
+};
+
+template <typename MsgT>
+struct UnionCombiner {
+    static void combine(std::vector<MsgT>& u1, std::vector<MsgT>& u2) {
+        for (MsgT x : u2) {
+            u1.push_back(x);
+        }
+    }
 };
 
 class SemiVertex {
    public:
     using KeyT = int;
 
-    SemiVertex() : neighbors(), clusters() {};
+    SemiVertex() : neighbors(), clusters(){};
     explicit SemiVertex(const KeyT& id) : vertexId(id), neighbors(), clusters() {}
     const KeyT& id() const { return vertexId; }
 
@@ -89,25 +103,14 @@ void semicluster() {
     int mMax = stoi(husky::Context::get_param("m_max"));
     float fB = stof(husky::Context::get_param("f_b"));
 
-
     husky::LOG_I << "SemiClustering with Hyperparameters:";
     husky::LOG_I << "C_max: " << cMax;
     husky::LOG_I << "V_max: " << vMax;
     husky::LOG_I << "M_max: " << mMax;
     husky::LOG_I << "f_B: " << fB;
 
-
-    husky::LOG_I << "Loading input graph from " << husky::Context::get_param("input") << " as " << husky::Context::get_param("format");
-
     auto& vertex_list = husky::ObjListStore::create_objlist<SemiVertex>();
-    // Reading graph files from SNAP format: http://snap.stanford.edu/data
-    //
-    // (each line representing an edge, with tab in between)
-    // vertex   vertex
-    // vertex1  vertex2
-    // ...
-    // TODO: Extend for directed/undirected differentiation, maybe the Vertex class needs to be able to reflect if the underlying graph is directed or undirected
-    // TODO: Also, the vertices and edges of a graph should have additional data attached to them
+
     husky::load(infmt, [&vertex_list](auto& chunk) {
         husky::LOG_I << "Read a line: " << chunk;
 
@@ -141,13 +144,37 @@ void semicluster() {
 
     husky::globalize(vertex_list);
 
-    husky::LOG_I << "Semi Clustering started...";
-    
-    vertex_list.shuffle();
+    if (husky::Context::get_global_tid() == 0)
+        husky::LOG_I << "Loading input graph from " << husky::Context::get_param("input") << " as "
+                     << husky::Context::get_param("format");
 
-    husky::list_execute(vertex_list, [](SemiVertex& u) {
-        husky::LOG_I << u.id() << " " << u.neighbors.front().first;
-    });
+    auto& scch =
+        husky::ChannelStore::create_push_combined_channel<std::vector<SemiCluster>, UnionCombiner<SemiCluster>>(
+            vertex_list, vertex_list);
+
+    // Initialization
+    husky::LOG_I << "Semi Clustering started...";
+
+    int numIters = stoi(husky::Context::get_param("iters"));
+
+    for (int iter = 0; iter < numIters; ++iter) {
+        husky::list_execute(vertex_list, [&scch, iter, vMax, fB](SemiVertex& v) {
+            if (iter == 0) {
+                SemiCluster s;
+                s.members.push_back(v.vertexId);
+                s.semiScore = 1.0;
+
+                v.clusters.push_back(s);
+            } else {
+                // std::vector<SemiCluster> msg = scch.get(v);
+                // // ...
+            }
+
+            for (auto& nb : v.neighbors) {
+                scch.push(v.clusters, nb.first);
+            }
+        });
+    }
 }
 
 int main(int argc, char** argv) {
