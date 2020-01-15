@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include "boost/tokenizer.hpp"
 
@@ -20,6 +21,37 @@ class SemiCluster
         friend husky::BinStream& operator>>(husky::BinStream& stream, SemiCluster& c) {
             stream >> c.semiScore >> c.members;
             return stream;
+        }
+
+        /**
+         * Add a new vertex to this cluster, by appending to members.
+         * Also update the semiScore.
+         * For this, we look into the edges of the new vertex.
+         * Iterating over the edges, for each edge u, we will check wether it is in the members list already.
+         * If yes, the weight of that edge is added to innerWeight.
+         * If no, the weight of that edge is added to outerWeight.
+         * 
+         */
+        void addToCluster(int newVertexId, std::vector<std::pair<int, float>> edges) {
+            int innerWeight = 0;
+            int outerWeight = 0;
+
+            members.push_back(newVertexId);
+
+            for (std::pair<int, float> e : edges) {
+                int u = e.first;
+                float weight = e.second;
+                
+                // If u is not in the in the members list, it is an outEdge (outside of cluster) 
+                // https://stackoverflow.com/questions/571394/how-to-find-out-if-an-item-is-present-in-a-stdvector
+                if (std::find(members.begin(), members.end(), u) != members.end()) {
+                    outerWeight += weight;
+                } else {
+                    innerWeight += weight;
+                }
+            }
+
+            // recalculate S_c
         }
 };
 

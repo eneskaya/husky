@@ -109,9 +109,7 @@ void pagerank() {
             for (auto& nb : u.adj) {
                 prch.push(sendPR, nb);
             }
-            //prch.shuffle_combine();
         });
-        vertex_list.shuffle();
     }
     // TODO: Find a better way of outputing the result
     // Maybe write to a MongoDB for iterative comparison
