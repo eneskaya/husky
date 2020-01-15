@@ -19,6 +19,12 @@ set(husky husky-lib husky-io husky-core husky-base)
 
 ### Applications
 
+# PageRankNew
+add_executable(PageRankNew pagerank_new.cpp)
+target_link_libraries(PageRankNew ${husky})
+target_link_libraries(PageRankNew ${HUSKY_EXTERNAL_LIB})
+husky_default_properties(PageRankNew)
+
 # SemiCluster
 add_executable(SemiCluster semiclustering.cpp)
 target_link_libraries(SemiCluster ${husky})
