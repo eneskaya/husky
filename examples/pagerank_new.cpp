@@ -62,12 +62,11 @@ void pagerank() {
     // vertex   vertex
     // vertex1  vertex2
     // ...
-    // TODO: Extend for directed/undirected differentiation, maybe the Vertex class needs to be able to reflect if the underlying graph is directed or undirected
+    // TODO: Extend for directed/undirected differentiation, maybe the Vertex class needs to be able to reflect if the
+    // underlying graph is directed or undirected
     // TODO: Also, the vertices and edges of a graph should have additional data attached to them
     husky::load(infmt, [&vertex_list](auto& chunk) {
-        husky::LOG_I << "Read a line: " << chunk;
-
-        if (chunk.size() == 0)
+        if (chunk.size() == 0 || chunk.front() == "#")
             return;
         boost::char_separator<char> sep("\t");
         boost::tokenizer<boost::char_separator<char>> tok(chunk, sep);
@@ -94,7 +93,7 @@ void pagerank() {
 
     // Iterative PageRank computation
     auto& prch =
-            husky::ChannelStore::create_push_combined_channel<float, husky::SumCombiner<float>>(vertex_list, vertex_list);
+        husky::ChannelStore::create_push_combined_channel<float, husky::SumCombiner<float>>(vertex_list, vertex_list);
     int numIters = stoi(husky::Context::get_param("iters"));
 
     // Not sure, but the iterations represent the supersteps of the Pregel framework? TODO: find out
@@ -113,9 +112,8 @@ void pagerank() {
     }
     // TODO: Find a better way of outputing the result
     // Maybe write to a MongoDB for iterative comparison
-    husky::list_execute(vertex_list, [](Vertex& u) {
-        husky::LOG_I << "VertexID: " << u.id() << ", has PR score of: " << u.pr;
-    });
+    husky::list_execute(vertex_list,
+                        [](Vertex& u) { husky::LOG_I << "VertexID: " << u.id() << ", has PR score of: " << u.pr; });
 }
 
 int main(int argc, char** argv) {
