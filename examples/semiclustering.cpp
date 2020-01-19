@@ -171,7 +171,11 @@ void semicluster() {
 
     int numIters = stoi(husky::Context::get_param("iters"));
 
+    using namespace std::chrono;
+
     for (int iter = 0; iter < numIters; ++iter) {
+        auto t1 = steady_clock::now();
+
         husky::list_execute(vertex_list, [&scch, iter, vMax, fB](SemiVertex& v) {
             if (iter == 0) {
                 SemiCluster s;
@@ -192,6 +196,9 @@ void semicluster() {
                 scch.push(v.clusters, nb.first);
             }
         });
+
+        if (husky::Context::get_global_tid() == 0)
+            husky::LOG_I << "[Iter " << iter << "] " << time << "s elapsed.";
     }
 
     // RESULT
