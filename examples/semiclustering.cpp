@@ -211,14 +211,16 @@ void semicluster() {
         }
     });
 
-    std::sort(result.begin(), result.end());
-    std::reverse(result.begin(), result.end());
-    result.resize(cMax);
+    if (husky::Context::get_global_tid() == 0) {
+        std::sort(result.begin(), result.end());
+        std::reverse(result.begin(), result.end());
+        result.resize(cMax);
 
-    for (SemiCluster s : result) {
-        husky::LOG_I << s.semiScore;
-        for (auto& m : s.members) {
-            husky::LOG_I << m;
+        for (SemiCluster s : result) {
+            husky::LOG_I << s.semiScore;
+            for (auto& m : s.members) {
+                husky::LOG_I << m;
+            }
         }
     }
 }
