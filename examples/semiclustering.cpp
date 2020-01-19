@@ -8,9 +8,11 @@
 #include "io/input/inputformat_store.hpp"
 #include "lib/aggregator_factory.hpp"
 
+int MMAX = 10;
+
 class SemiCluster {
    public:
-    SemiCluster();
+    SemiCluster() : semiScore(1.0), members({});
     SemiCluster(const SemiCluster& rhs) {
         semiScore = rhs.semiScore;
         members = rhs.members;
@@ -63,6 +65,9 @@ class SemiCluster {
         semiScore = (innerWeight - fB * outerWeight) / ((members.size() * (members.size() - 1)) / 2);
         return true;
     }
+
+    bool operator<(const SemiCluster& rhs) const { return semiScore < rhs.semiScore; }
+    bool operator>(const SemiCluster& rhs) const { return semiScore > rhs.semiScore; }
 };
 
 template <typename MsgT>
@@ -95,6 +100,12 @@ class SemiVertex {
     int vertexId;
     std::vector<std::pair<int, float>> neighbors;
     std::vector<SemiCluster> clusters;
+
+    void addSemiCluster(SemiCluster s) {
+        clusters.push_back(s);
+        std::sort(clusters.begin(), clusters.end());
+        std::reverse(clusters.begin(), clusters.end());
+    }
 };
 
 void semicluster() {
@@ -117,8 +128,6 @@ void semicluster() {
     auto& vertex_list = husky::ObjListStore::create_objlist<SemiVertex>();
 
     husky::load(infmt, [&vertex_list](auto& chunk) {
-        husky::LOG_I << "Read a line: " << chunk;
-
         if (chunk.size() == 0)
             return;
         boost::char_separator<char> sep("\t");
@@ -153,9 +162,8 @@ void semicluster() {
         husky::LOG_I << "Loading input graph from " << husky::Context::get_param("input") << " as "
                      << husky::Context::get_param("format");
 
-    auto& scch =
-        husky::ChannelStore::create_push_combined_channel<std::vector<SemiCluster>, UnionCombiner<SemiCluster>>(
-            vertex_list, vertex_list);
+    auto& = husky::ChannelStore::create_push_combined_channel<std::vector<SemiCluster>, UnionCombiner<SemiCluster>>(
+        vertex_list, vertex_list);
 
     // Initialization
     husky::LOG_I << "Semi Clustering started...";
@@ -172,10 +180,10 @@ void semicluster() {
                 v.clusters.push_back(s);
             } else {
                 // for each cluster, enter v and proceed
-                for (SemiCluster& c : scch.get(v)) {
+                for (SemiCluster c : scch.get(v)) {
                     SemiCluster nC(c);
                     nC.addToCluster(v.id(), v.neighbors, vMax, fB);
-                    v.clusters.push_back(nC);
+                    v.addSemiCluster(nC);
                 }
             }
 
@@ -183,6 +191,23 @@ void semicluster() {
                 scch.push(v.clusters, nb.first);
             }
         });
+    }
+
+    // RESULT
+
+    std::vector<SemiCluster> result = {};
+
+    husky::list_execute(vertex_list, [&result](SemiVertex& v) { result.push_back(v.clusters); });
+
+    std::sort(result.begin(), result.end());
+    std::reverse(result.begin(), result.end());
+    result.resize(cMax);
+
+    for (SemiCluster s : result) {
+        husky::LOG_I << s.semiScore;
+        for (auto& m : s.members) {
+            husky::LOG_I << m;
+        }
     }
 }
 
