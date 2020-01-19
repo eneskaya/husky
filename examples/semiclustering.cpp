@@ -12,7 +12,7 @@ int MMAX = 10;
 
 class SemiCluster {
    public:
-    SemiCluster() : semiScore(1.0), members({});
+    SemiCluster() : semiScore(1.0), members({}){};
     SemiCluster(const SemiCluster& rhs) {
         semiScore = rhs.semiScore;
         members = rhs.members;
@@ -162,8 +162,9 @@ void semicluster() {
         husky::LOG_I << "Loading input graph from " << husky::Context::get_param("input") << " as "
                      << husky::Context::get_param("format");
 
-    auto& = husky::ChannelStore::create_push_combined_channel<std::vector<SemiCluster>, UnionCombiner<SemiCluster>>(
-        vertex_list, vertex_list);
+    auto& scch =
+        husky::ChannelStore::create_push_combined_channel<std::vector<SemiCluster>, UnionCombiner<SemiCluster>>(
+            vertex_list, vertex_list);
 
     // Initialization
     husky::LOG_I << "Semi Clustering started...";
@@ -197,7 +198,11 @@ void semicluster() {
 
     std::vector<SemiCluster> result = {};
 
-    husky::list_execute(vertex_list, [&result](SemiVertex& v) { result.push_back(v.clusters); });
+    husky::list_execute(vertex_list, [&result](SemiVertex& v) {
+        for (SemiCluster s : v.clusters) {
+            result.push_back(s);
+        }
+    });
 
     std::sort(result.begin(), result.end());
     std::reverse(result.begin(), result.end());
