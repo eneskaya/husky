@@ -127,8 +127,8 @@ void semicluster() {
 
     auto& vertex_list = husky::ObjListStore::create_objlist<SemiVertex>();
 
-    husky::load(infmt, [&vertex_list](auto& chunk) {
-        if (chunk.size() == 0)
+    husky::load(infmt, [&vertex_list](boost::string_ref& chunk) {
+        if (chunk.empty())
             return;
         boost::char_separator<char> sep("\t");
         boost::tokenizer<boost::char_separator<char>> tok(chunk, sep);

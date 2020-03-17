@@ -68,6 +68,9 @@ void pagerank() {
     husky::load(infmt, [&vertex_list](auto& chunk) {
         if (chunk.size() == 0)
             return;
+
+        husky::LOG_I << "Read a line: " << chunk;
+
         boost::char_separator<char> sep("\t");
         boost::tokenizer<boost::char_separator<char>> tok(chunk, sep);
         boost::tokenizer<boost::char_separator<char>>::iterator it = tok.begin();
@@ -117,12 +120,10 @@ void pagerank() {
 }
 
 int main(int argc, char** argv) {
-    husky::LOG_I << "STARTING MASTER";
     std::vector<std::string> args;
-    args.push_back("hdfs_namenode");
-    args.push_back("hdfs_namenode_port");
     args.push_back("input");
     args.push_back("iters");
+
     if (husky::init_with_args(argc, argv, args)) {
         husky::LOG_I << "Initialized PageRank App";
         husky::run_job(pagerank);

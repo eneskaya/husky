@@ -25,3 +25,4 @@ latex/*
 .vscode
 .idea
 cmake-build-debug
+.vagrant
