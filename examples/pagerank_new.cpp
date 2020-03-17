@@ -66,10 +66,10 @@ void pagerank() {
     // underlying graph is directed or undirected
     // TODO: Also, the vertices and edges of a graph should have additional data attached to them
     husky::load(infmt, [&vertex_list](auto& chunk) {
+        husky::LOG_I << "Read a line: " << chunk;
+
         if (chunk.size() == 0)
             return;
-
-        husky::LOG_I << "Read a line: " << chunk;
 
         boost::char_separator<char> sep("\t");
         boost::tokenizer<boost::char_separator<char>> tok(chunk, sep);
