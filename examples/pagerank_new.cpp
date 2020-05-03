@@ -155,6 +155,7 @@ int main(int argc, char** argv) {
     std::vector<std::string> args;
     args.push_back("input");
     args.push_back("iters");
+
     if (husky::init_with_args(argc, argv, args)) {
         husky::run_job(pagerank);
         return 0;

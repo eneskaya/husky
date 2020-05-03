@@ -137,8 +137,8 @@ public:
         // }
 
         clusters.push_back(s);
-        // std::sort(clusters.begin(), clusters.end());
-        // std::reverse(clusters.begin(), clusters.end());
+        std::sort(clusters.begin(), clusters.end());
+        std::reverse(clusters.begin(), clusters.end());
 
         if (clusters.size() > vMax) {
             clusters.resize(vMax);
@@ -300,21 +300,21 @@ void semicluster() {
                     // if (husky::Context::get_global_tid() == 0) {
                     //     husky::LOG_I << "Gather neighbors STARt...";
                     // }
-                    // Gather all the neighbors of the member, so we have the complete neighbourhood of the cluster members.
-                    // std::vector<std::pair<int,float>> allNeighbors;
-                    // allNeighbors.insert(allNeighbors.end(), v.neighbors.begin(), v.neighbors.end());
-                    // for (std::pair<int,float> u : v.neighbors) {
-                    //     auto& neighborsOfU = neighborsBroadcast.get(u.first);
-                    //     // https://stackoverflow.com/questions/2551775/appending-a-vector-to-a-vector
-                    //     for (std::pair<int,float> x : neighborsOfU) {
-                    //         if (x.first != v.id()) {
-                    //             allNeighbors.push_back(x);
-                    //         }
-                    //     }
-                    // }
-                    // if (husky::Context::get_global_tid() == 0) {
-                    //     husky::LOG_I << "Gather neighbors END...";
-                    // }
+                    Gather all the neighbors of the member, so we have the complete neighbourhood of the cluster members.
+                    std::vector<std::pair<int,float>> allNeighbors;
+                    allNeighbors.insert(allNeighbors.end(), v.neighbors.begin(), v.neighbors.end());
+                    for (std::pair<int,float> u : v.neighbors) {
+                        auto& neighborsOfU = neighborsBroadcast.get(u.first);
+                        // https://stackoverflow.com/questions/2551775/appending-a-vector-to-a-vector
+                        for (std::pair<int,float> x : neighborsOfU) {
+                            if (x.first != v.id()) {
+                                allNeighbors.push_back(x);
+                            }
+                        }
+                    }
+                    if (husky::Context::get_global_tid() == 0) {
+                        husky::LOG_I << "Gather neighbors END...";
+                    }
 
                     changed = nC.addToCluster(v.id(), v.neighbors, vMax, fB);
                     v.addSemiCluster(nC, vMax);
