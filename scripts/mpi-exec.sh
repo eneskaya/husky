@@ -5,8 +5,8 @@
 # worker2
 # worker3
 #
-MACHINE_CFG=
+MACHINE_CFG=/home/ubuntu/machines
 
 # Number of machines (workers)
-MACHINE_NUM=
-time mpiexec -np ${MACHINE_NUM} -f ${MACHINE_CFG} $@
+MACHINE_NUM=1
+time mpiexec -np ${MACHINE_NUM} -mca plm_rsh_no_tree_spawn 1 -pernode -hostfile ${MACHINE_CFG} $@

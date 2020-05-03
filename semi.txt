@@ -1,0 +1,225 @@
+[INFO 2020-04-21 21:23:09.268677 19885 semiclustering.cpp:261]  ------- For vertex: 1
+[INFO 2020-04-21 21:23:09.268689 19885 semiclustering.cpp:264] Score 18.5
+[INFO 2020-04-21 21:23:09.268697 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.268705 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.268716 19885 semiclustering.cpp:264] Score 13
+[INFO 2020-04-21 21:23:09.268726 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.268731 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.268738 19885 semiclustering.cpp:264] Score 8.5
+[INFO 2020-04-21 21:23:09.268743 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.268749 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.268759 19885 semiclustering.cpp:264] Score 6.16667
+[INFO 2020-04-21 21:23:09.268769 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.268774 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.268782 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.268792 19885 semiclustering.cpp:264] Score 4.33333
+[INFO 2020-04-21 21:23:09.268802 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.268807 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.268816 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.268826 19885 semiclustering.cpp:264] Score 3
+[INFO 2020-04-21 21:23:09.268836 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.268841 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.268849 19885 semiclustering.cpp:264] Score 1
+[INFO 2020-04-21 21:23:09.268858 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.268869 19885 semiclustering.cpp:269]  ------ 
+[INFO 2020-04-21 21:23:09.268873 19885 semiclustering.cpp:260] 
+[INFO 2020-04-21 21:23:09.268883 19885 semiclustering.cpp:261]  ------- For vertex: 2
+[INFO 2020-04-21 21:23:09.268893 19885 semiclustering.cpp:264] Score 18.5
+[INFO 2020-04-21 21:23:09.268903 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.268908 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.268918 19885 semiclustering.cpp:264] Score 14
+[INFO 2020-04-21 21:23:09.268929 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.268944 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.268954 19885 semiclustering.cpp:264] Score 8.5
+[INFO 2020-04-21 21:23:09.268965 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.268973 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.268983 19885 semiclustering.cpp:264] Score 4.66667
+[INFO 2020-04-21 21:23:09.268992 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.269001 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.269011 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.269021 19885 semiclustering.cpp:264] Score 4
+[INFO 2020-04-21 21:23:09.269034 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.269047 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.269062 19885 semiclustering.cpp:264] Score 2.83333
+[INFO 2020-04-21 21:23:09.269070 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.269076 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.269081 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.269102 19885 semiclustering.cpp:264] Score 1
+[INFO 2020-04-21 21:23:09.269109 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.269112 19885 semiclustering.cpp:269]  ------ 
+[INFO 2020-04-21 21:23:09.269121 19885 semiclustering.cpp:260] 
+[INFO 2020-04-21 21:23:09.269134 19885 semiclustering.cpp:261]  ------- For vertex: 3
+[INFO 2020-04-21 21:23:09.269142 19885 semiclustering.cpp:264] Score 19.5
+[INFO 2020-04-21 21:23:09.269152 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.269163 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.269174 19885 semiclustering.cpp:264] Score 14
+[INFO 2020-04-21 21:23:09.269178 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.269187 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.269198 19885 semiclustering.cpp:264] Score 9.5
+[INFO 2020-04-21 21:23:09.269207 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.269217 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.269227 19885 semiclustering.cpp:264] Score 4
+[INFO 2020-04-21 21:23:09.269237 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.269245 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.269258 19885 semiclustering.cpp:264] Score 3.16667
+[INFO 2020-04-21 21:23:09.269266 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.269275 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.269285 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.269313 19885 semiclustering.cpp:264] Score 1.33333
+[INFO 2020-04-21 21:23:09.269322 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.269333 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.269337 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.269343 19885 semiclustering.cpp:264] Score 1
+[INFO 2020-04-21 21:23:09.269352 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.269361 19885 semiclustering.cpp:269]  ------ 
+[INFO 2020-04-21 21:23:09.269371 19885 semiclustering.cpp:260] 
+[INFO 2020-04-21 21:23:09.269376 19885 semiclustering.cpp:261]  ------- For vertex: 4
+[INFO 2020-04-21 21:23:09.269388 19885 semiclustering.cpp:264] Score 19.5
+[INFO 2020-04-21 21:23:09.269399 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.269413 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.269425 19885 semiclustering.cpp:264] Score 13
+[INFO 2020-04-21 21:23:09.269435 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.269440 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.269451 19885 semiclustering.cpp:264] Score 9.5
+[INFO 2020-04-21 21:23:09.269462 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.269472 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.269481 19885 semiclustering.cpp:264] Score 6.5
+[INFO 2020-04-21 21:23:09.269491 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.269500 19885 semiclustering.cpp:266] 3
+[INFO 2020-04-21 21:23:09.269510 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.269521 19885 semiclustering.cpp:264] Score 3
+[INFO 2020-04-21 21:23:09.269531 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.269541 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.269552 19885 semiclustering.cpp:264] Score 1
+[INFO 2020-04-21 21:23:09.269562 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.269572 19885 semiclustering.cpp:264] Score 1
+[INFO 2020-04-21 21:23:09.269582 19885 semiclustering.cpp:266] 2
+[INFO 2020-04-21 21:23:09.269590 19885 semiclustering.cpp:266] 1
+[INFO 2020-04-21 21:23:09.269600 19885 semiclustering.cpp:266] 4
+[INFO 2020-04-21 21:23:09.269610 19885 semiclustering.cpp:269]  ------ 
+
+
+
+[INFO 2020-04-21 21:24:31.933413 20095 semiclustering.cpp:263]  ------- For vertex: 1
+[INFO 2020-04-21 21:24:31.933429 20095 semiclustering.cpp:266] Score 18.5
+[INFO 2020-04-21 21:24:31.933439 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.933451 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.933460 20095 semiclustering.cpp:266] Score 18.5
+[INFO 2020-04-21 21:24:31.933470 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.933475 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.933485 20095 semiclustering.cpp:266] Score 13
+[INFO 2020-04-21 21:24:31.933490 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.933501 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.933518 20095 semiclustering.cpp:266] Score 13
+[INFO 2020-04-21 21:24:31.933523 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.933527 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.933538 20095 semiclustering.cpp:266] Score 8.5
+[INFO 2020-04-21 21:24:31.933553 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.933559 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.933564 20095 semiclustering.cpp:266] Score 6.16667
+[INFO 2020-04-21 21:24:31.933569 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.933583 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.933588 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.933595 20095 semiclustering.cpp:266] Score 4.33333
+[INFO 2020-04-21 21:24:31.933605 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.933619 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.933622 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.933629 20095 semiclustering.cpp:266] Score 3
+[INFO 2020-04-21 21:24:31.933635 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.933645 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.933658 20095 semiclustering.cpp:266] Score 1
+[INFO 2020-04-21 21:24:31.933670 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.933682 20095 semiclustering.cpp:271]  ------ 
+[INFO 2020-04-21 21:24:31.933692 20095 semiclustering.cpp:262] 
+[INFO 2020-04-21 21:24:31.933703 20095 semiclustering.cpp:263]  ------- For vertex: 2
+[INFO 2020-04-21 21:24:31.933717 20095 semiclustering.cpp:266] Score 18.5
+[INFO 2020-04-21 21:24:31.933728 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.933739 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.933753 20095 semiclustering.cpp:266] Score 14
+[INFO 2020-04-21 21:24:31.933763 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.933773 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.933780 20095 semiclustering.cpp:266] Score 14
+[INFO 2020-04-21 21:24:31.933791 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.933804 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.933815 20095 semiclustering.cpp:266] Score 8.5
+[INFO 2020-04-21 21:24:31.933826 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.933837 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.933849 20095 semiclustering.cpp:266] Score 8.5
+[INFO 2020-04-21 21:24:31.933861 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.933883 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.933897 20095 semiclustering.cpp:266] Score 4.66667
+[INFO 2020-04-21 21:24:31.933908 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.933919 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.933930 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.933943 20095 semiclustering.cpp:266] Score 4
+[INFO 2020-04-21 21:24:31.933950 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.933954 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.933965 20095 semiclustering.cpp:266] Score 2.83333
+[INFO 2020-04-21 21:24:31.933970 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.933981 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.933985 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.933992 20095 semiclustering.cpp:266] Score 1
+[INFO 2020-04-21 21:24:31.933998 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.934002 20095 semiclustering.cpp:271]  ------ 
+[INFO 2020-04-21 21:24:31.934016 20095 semiclustering.cpp:262] 
+[INFO 2020-04-21 21:24:31.934021 20095 semiclustering.cpp:263]  ------- For vertex: 3
+[INFO 2020-04-21 21:24:31.934028 20095 semiclustering.cpp:266] Score 19.5
+[INFO 2020-04-21 21:24:31.934034 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.934046 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.934059 20095 semiclustering.cpp:266] Score 14
+[INFO 2020-04-21 21:24:31.934064 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.934073 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.934104 20095 semiclustering.cpp:266] Score 9.5
+[INFO 2020-04-21 21:24:31.934115 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.934128 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.934151 20095 semiclustering.cpp:266] Score 9.5
+[INFO 2020-04-21 21:24:31.934164 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.934175 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.934187 20095 semiclustering.cpp:266] Score 4
+[INFO 2020-04-21 21:24:31.934199 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.934211 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.934222 20095 semiclustering.cpp:266] Score 4
+[INFO 2020-04-21 21:24:31.934234 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.934245 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.934257 20095 semiclustering.cpp:266] Score 3.16667
+[INFO 2020-04-21 21:24:31.934265 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.934273 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.934283 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.934295 20095 semiclustering.cpp:266] Score 1.33333
+[INFO 2020-04-21 21:24:31.934319 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.934330 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.934341 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.934353 20095 semiclustering.cpp:266] Score 1
+[INFO 2020-04-21 21:24:31.934365 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.934376 20095 semiclustering.cpp:271]  ------ 
+[INFO 2020-04-21 21:24:31.934404 20095 semiclustering.cpp:262] 
+[INFO 2020-04-21 21:24:31.934415 20095 semiclustering.cpp:263]  ------- For vertex: 4
+[INFO 2020-04-21 21:24:31.934432 20095 semiclustering.cpp:266] Score 19.5
+[INFO 2020-04-21 21:24:31.934442 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.934454 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.934466 20095 semiclustering.cpp:266] Score 19.5
+[INFO 2020-04-21 21:24:31.934473 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.934479 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.934492 20095 semiclustering.cpp:266] Score 13
+[INFO 2020-04-21 21:24:31.934504 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.934515 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.934527 20095 semiclustering.cpp:266] Score 9.5
+[INFO 2020-04-21 21:24:31.934540 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.934551 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.934571 20095 semiclustering.cpp:266] Score 6.5
+[INFO 2020-04-21 21:24:31.934583 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.934594 20095 semiclustering.cpp:268] 3
+[INFO 2020-04-21 21:24:31.934605 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.934618 20095 semiclustering.cpp:266] Score 3
+[INFO 2020-04-21 21:24:31.934629 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.934682 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.934701 20095 semiclustering.cpp:266] Score 3
+[INFO 2020-04-21 21:24:31.934713 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.934725 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.934737 20095 semiclustering.cpp:266] Score 1
+[INFO 2020-04-21 21:24:31.934749 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.934762 20095 semiclustering.cpp:266] Score 1
+[INFO 2020-04-21 21:24:31.934769 20095 semiclustering.cpp:268] 2
+[INFO 2020-04-21 21:24:31.934779 20095 semiclustering.cpp:268] 1
+[INFO 2020-04-21 21:24:31.934792 20095 semiclustering.cpp:268] 4
+[INFO 2020-04-21 21:24:31.934803 20095 semiclustering.cpp:271]  ------ 

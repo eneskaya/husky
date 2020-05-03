@@ -12,14 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <chrono>
+
 #include <string>
 #include <vector>
 
 #include "boost/tokenizer.hpp"
+#include "boost/regex.hpp"
 
 #include "core/engine.hpp"
 #include "io/input/inputformat_store.hpp"
 #include "io/input/nfs_binary_inputformat.hpp"
+#include "lib/aggregator_factory.hpp"
 
 class Vertex {
    public:
@@ -48,13 +52,12 @@ void pagerank() {
     auto& infmt = husky::io::InputFormatStore::create_line_inputformat();
     infmt.set_input(husky::Context::get_param("input"));
 
-    husky::LOG_I << "Something happening";
-    husky::LOG_I << husky::Context::get_param("input");
+    if (husky::Context::get_global_tid() == 0) {
+        husky::LOG_I << husky::Context::get_param("input");
+    }
 
     // Create and globalize vertex objects
     auto& vertex_list = husky::ObjListStore::create_objlist<Vertex>();
-
-    husky::LOG_I << "Created vertexlist";
 
     // Reading graph files from SNAP format: http://snap.stanford.edu/data
     //
@@ -65,10 +68,19 @@ void pagerank() {
     // TODO: Extend for directed/undirected differentiation, maybe the Vertex class needs to be able to reflect if the
     // underlying graph is directed or undirected
     // TODO: Also, the vertices and edges of a graph should have additional data attached to them
-    husky::load(infmt, [&vertex_list](auto& chunk) {
-        if (chunk.size() == 0 || *chunk.front() == "#")
+    husky::load(infmt, [&vertex_list](boost::string_ref& chunk) {
+        if (chunk.size() == 0)
             return;
-        boost::char_separator<char> sep("\t");
+
+        boost::match_results<boost::string_ref::const_iterator> base;
+        boost::regex re("[0-9]+\\s+[0-9]+");
+
+        if (!boost::regex_match(chunk.cbegin(), chunk.cend(), base, re)) {                                                                              
+            husky::LOG_I << "DOESNT MATCH! " << chunk;
+            return;
+        }
+
+        boost::char_separator<char> sep(" \t");
         boost::tokenizer<boost::char_separator<char>> tok(chunk, sep);
         boost::tokenizer<boost::char_separator<char>>::iterator it = tok.begin();
 
@@ -81,14 +93,13 @@ void pagerank() {
         } else {
             Vertex v(id);
 
-            while (it != tok.end()) {
+            if (it != tok.end()) {
                 v.adj.push_back(stoi(*it++));
             }
             vertex_list.add_object(std::move(v));
         }
     });
 
-    husky::LOG_I << "globalizing on worker " << husky::Context::get_process_id();
     husky::globalize(vertex_list);
 
     // Iterative PageRank computation
@@ -96,35 +107,55 @@ void pagerank() {
         husky::ChannelStore::create_push_combined_channel<float, husky::SumCombiner<float>>(vertex_list, vertex_list);
     int numIters = stoi(husky::Context::get_param("iters"));
 
+    using namespace std::chrono;
+    auto t1 = steady_clock::now();
+
     // Not sure, but the iterations represent the supersteps of the Pregel framework? TODO: find out
     for (int iter = 0; iter < numIters; ++iter) {
-        husky::list_execute(vertex_list, [&prch, iter](Vertex& u) {
+        if (husky::Context::get_global_tid() == 0) {
+            husky::LOG_I << "----- Starting iteration # " << iter;
+        }
+
+        husky::list_execute(vertex_list, [&vertex_list, &prch, iter](Vertex& u) {
             if (iter > 0)
                 u.pr = 0.85 * prch.get(u) + 0.15;
 
             if (u.adj.size() == 0)
                 return;
+
             float sendPR = u.pr / u.adj.size();
+
             for (auto& nb : u.adj) {
                 prch.push(sendPR, nb);
             }
         });
     }
-    // TODO: Find a better way of outputing the result
-    // Maybe write to a MongoDB for iterative comparison
-    husky::list_execute(vertex_list,
-                        [](Vertex& u) { husky::LOG_I << "VertexID: " << u.id() << ", has PR score of: " << u.pr; });
+
+    auto t2 = steady_clock::now();
+    auto time = duration_cast<duration<double>>(t2 - t1).count();
+    if (husky::Context::get_global_tid() == 0) {
+        husky::LOG_I << time << "s elapsed.";
+    }
+
+    // Aggregator
+    husky::lib::Aggregator<float> totalPR;
+
+    auto& ac = husky::lib::AggregatorFactory::get_channel();
+
+    husky::list_execute(vertex_list, {}, {&ac}, [&totalPR](Vertex& u) {
+        totalPR.update(u.pr);
+    });
+
+    if (husky::Context::get_global_tid() == 0) {
+        husky::LOG_I << "Total PR value: " << totalPR.get_value();
+    }
 }
 
 int main(int argc, char** argv) {
-    husky::LOG_I << "STARTING MASTER";
     std::vector<std::string> args;
-    args.push_back("hdfs_namenode");
-    args.push_back("hdfs_namenode_port");
     args.push_back("input");
     args.push_back("iters");
     if (husky::init_with_args(argc, argv, args)) {
-        husky::LOG_I << "Initialized PageRank App";
         husky::run_job(pagerank);
         return 0;
     }
