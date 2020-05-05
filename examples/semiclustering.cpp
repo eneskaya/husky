@@ -2,9 +2,8 @@
 #include <string>
 #include <vector>
 
-#include "boost/tokenizer.hpp"
 #include "boost/regex.hpp"
-
+#include "boost/tokenizer.hpp"
 #include "core/engine.hpp"
 #include "io/input/inputformat_store.hpp"
 #include "lib/aggregator_factory.hpp"
@@ -12,10 +11,10 @@
 int MMAX = 10;
 
 class SemiCluster {
-public:
-    SemiCluster() : semiScore(1.0), members({}) {};
+   public:
+    SemiCluster() : semiScore(1.0), members({}){};
 
-    SemiCluster(const SemiCluster &rhs) {
+    SemiCluster(const SemiCluster& rhs) {
         semiScore = rhs.semiScore;
         members = rhs.members;
     }
@@ -24,12 +23,12 @@ public:
     std::vector<int> members;
 
     // Serialization and deserialization
-    friend husky::BinStream &operator<<(husky::BinStream &stream, const SemiCluster &c) {
+    friend husky::BinStream& operator<<(husky::BinStream& stream, const SemiCluster& c) {
         stream << c.semiScore << c.members;
         return stream;
     }
 
-    friend husky::BinStream &operator>>(husky::BinStream &stream, SemiCluster &c) {
+    friend husky::BinStream& operator>>(husky::BinStream& stream, SemiCluster& c) {
         stream >> c.semiScore >> c.members;
         return stream;
     }
@@ -42,7 +41,7 @@ public:
      * If yes, the weight of that edge is added to innerWeight.
      * If no, the weight of that edge is added to outerWeight.
      */
-    bool addToCluster(int newVertexId, std::vector <std::pair<int, float>> edges, int v_max, float fB) {
+    bool addToCluster(int newVertexId, std::vector<std::pair<int, float>> edges, int v_max, float fB) {
         // abort if Vmax is reached
         if (members.size() == v_max || std::find(members.begin(), members.end(), newVertexId) != members.end())
             return false;
@@ -70,14 +69,14 @@ public:
         return true;
     }
 
-    bool operator<(const SemiCluster &rhs) const { return semiScore < rhs.semiScore; }
+    bool operator<(const SemiCluster& rhs) const { return semiScore < rhs.semiScore; }
 
-    bool operator>(const SemiCluster &rhs) const { return semiScore > rhs.semiScore; }
+    bool operator>(const SemiCluster& rhs) const { return semiScore > rhs.semiScore; }
 
-    bool operator==(const SemiCluster &rhs) const {
-        // if (semiScore != rhs.semiScore)
-        //     return false;
-        
+    bool operator==(const SemiCluster& rhs) const {
+        if (semiScore != rhs.semiScore)
+            return false;
+
         if (members.size() != rhs.members.size())
             return false;
 
@@ -86,8 +85,8 @@ public:
 
         std::sort(copyThis.begin(), copyThis.end());
         std::sort(copyRhs.begin(), copyRhs.end());
-        
-        for(std::size_t i = 0; i < copyThis.size(); ++i) {
+
+        for (std::size_t i = 0; i < copyThis.size(); ++i) {
             if (copyThis[i] != copyRhs[i])
                 return false;
         }
@@ -96,9 +95,9 @@ public:
     }
 };
 
-template<typename MsgT>
+template <typename MsgT>
 struct UnionCombiner {
-    static void combine(std::vector<MsgT> &u1, std::vector<MsgT> const &u2) {
+    static void combine(std::vector<MsgT>& u1, std::vector<MsgT> const& u2) {
         for (MsgT x : u2) {
             u1.push_back(x);
         }
@@ -106,35 +105,35 @@ struct UnionCombiner {
 };
 
 class SemiVertex {
-public:
+   public:
     using KeyT = int;
 
-    SemiVertex() : neighbors(), clusters() {};
+    SemiVertex() : neighbors(), clusters(){};
 
-    explicit SemiVertex(const KeyT &id) : vertexId(id), neighbors(), clusters() {}
+    explicit SemiVertex(const KeyT& id) : vertexId(id), neighbors(), clusters() {}
 
-    const KeyT &id() const { return vertexId; }
+    const KeyT& id() const { return vertexId; }
 
     // Serialization and deserialization
-    friend husky::BinStream &operator<<(husky::BinStream &stream, const SemiVertex &u) {
+    friend husky::BinStream& operator<<(husky::BinStream& stream, const SemiVertex& u) {
         stream << u.vertexId << u.neighbors << u.clusters;
         return stream;
     }
 
-    friend husky::BinStream &operator>>(husky::BinStream &stream, SemiVertex &u) {
+    friend husky::BinStream& operator>>(husky::BinStream& stream, SemiVertex& u) {
         stream >> u.vertexId >> u.neighbors >> u.clusters;
         return stream;
     }
 
     int vertexId;
-    std::vector <std::pair<int, float>> neighbors;
-    std::vector <SemiCluster> clusters;
+    std::vector<std::pair<int, float>> neighbors;
+    std::vector<SemiCluster> clusters;
 
     bool addSemiCluster(SemiCluster s, int vMax) {
-        // for (SemiCluster c : clusters) {
-        //     if (c == s)
-        //         return false;
-        // }
+        for (SemiCluster c : clusters) {
+            if (c == s)
+                return false;
+        }
 
         clusters.push_back(s);
         std::sort(clusters.begin(), clusters.end());
@@ -151,11 +150,12 @@ public:
 std::string printCluster(SemiCluster const& data) {
     std::stringstream out;
 
-    out << "score: " << data.semiScore << ", members: " << " {";
+    out << "score: " << data.semiScore << ", members: "
+        << " {";
     for (int m : data.members) {
         out << " " << m << " ";
     }
-    out <<  "} ";
+    out << "} ";
 
     return out.str();
 }
@@ -176,25 +176,23 @@ std::string printSemiVertex(SemiVertex const& data) {
 
     out << "\n";
     for (const SemiCluster& s : data.clusters) {
-        out << "[ " << printCluster(s) << " ] " << "\n";
+        out << "[ " << printCluster(s) << " ] "
+            << "\n";
     }
     out << "\n" << std::endl;
     out << std::endl;
 
     return out.str();
-
 }
 
 void semicluster() {
-    auto &infmt = husky::io::InputFormatStore::create_line_inputformat();
+    auto& infmt = husky::io::InputFormatStore::create_line_inputformat();
     infmt.set_input(husky::Context::get_param("input"));
-    
 
     int cMax = stoi(husky::Context::get_param("c_max"));
     int vMax = stoi(husky::Context::get_param("v_max"));
     int mMax = stoi(husky::Context::get_param("m_max"));
     float fB = stof(husky::Context::get_param("f_b"));
-
 
     if (husky::Context::get_global_tid() == 0) {
         husky::LOG_I << "SemiClustering with Hyperparameters:";
@@ -205,23 +203,15 @@ void semicluster() {
         husky::LOG_I << "f_B: " << fB;
     }
 
-    auto &vertex_list = husky::ObjListStore::create_objlist<SemiVertex>();
+    auto& vertex_list = husky::ObjListStore::create_objlist<SemiVertex>();
 
-    husky::load(infmt, [&vertex_list](boost::string_ref &chunk) {
+    husky::load(infmt, [&vertex_list](boost::string_ref& chunk) {
         if (chunk.empty())
             return;
 
-        // boost::match_results<boost::string_ref::const_iterator> base;
-        // boost::regex re("[0-9]+\\s+[0-9]+");
-
-        // if (!boost::regex_match(chunk.cbegin(), chunk.cend(), base, re)) {                                                                              
-        //     husky::LOG_I << "DOESNT MATCH! " << chunk;
-        //     return;
-        // }
-
         boost::char_separator<char> sep(" \t");
-        boost::tokenizer <boost::char_separator<char>> tok(chunk, sep);
-        boost::tokenizer < boost::char_separator < char >> ::iterator it = tok.begin();
+        boost::tokenizer<boost::char_separator<char>> tok(chunk, sep);
+        boost::tokenizer<boost::char_separator<char>>::iterator it = tok.begin();
 
         int v_left = std::stoi(*it++);
         int v_right = std::stoi(*it++);
@@ -248,13 +238,15 @@ void semicluster() {
 
     husky::globalize(vertex_list);
 
-    auto &scch = husky::ChannelStore::create_push_combined_channel< std::vector < SemiCluster > , UnionCombiner<SemiCluster>>(vertex_list, vertex_list);
-    auto &neighborsBroadcast = husky::ChannelStore::create_broadcast_channel<int, std::vector<std::pair<int, float>>>(vertex_list);
+    auto& scch =
+        husky::ChannelStore::create_push_combined_channel<std::vector<SemiCluster>, UnionCombiner<SemiCluster>>(
+            vertex_list, vertex_list);
+    auto& neighborsBroadcast =
+        husky::ChannelStore::create_broadcast_channel<int, std::vector<std::pair<int, float>>>(vertex_list);
 
     // Thou shalt broadcast thy neighbours...
-    husky::list_execute(vertex_list, [&neighborsBroadcast](SemiVertex& v) {
-        neighborsBroadcast.broadcast(v.id(), v.neighbors);
-    });
+    husky::list_execute(vertex_list,
+                        [&neighborsBroadcast](SemiVertex& v) { neighborsBroadcast.broadcast(v.id(), v.neighbors); });
 
     int numIters = stoi(husky::Context::get_param("iters"));
 
@@ -266,7 +258,7 @@ void semicluster() {
             husky::LOG_I << "---- Iteration ----" << i;
         }
 
-        husky::list_execute(vertex_list, [&vertex_list, &scch, mMax, vMax, fB, i, &neighborsBroadcast](SemiVertex &v) {
+        husky::list_execute(vertex_list, [&vertex_list, &scch, mMax, vMax, fB, i, &neighborsBroadcast](SemiVertex& v) {
             if (i == 0) {
                 SemiCluster s;
                 s.members.push_back(v.vertexId);
@@ -274,7 +266,7 @@ void semicluster() {
 
                 v.clusters.push_back(s);
 
-                for (auto &nb : v.neighbors) {
+                for (auto& nb : v.neighbors) {
                     scch.push(v.clusters, nb.first);
                 }
             } else {
@@ -300,13 +292,14 @@ void semicluster() {
                     // if (husky::Context::get_global_tid() == 0) {
                     //     husky::LOG_I << "Gather neighbors STARt...";
                     // }
-                    Gather all the neighbors of the member, so we have the complete neighbourhood of the cluster members.
-                    std::vector<std::pair<int,float>> allNeighbors;
+                    Gather all the neighbors of the member,
+                        so we have the complete neighbourhood of the cluster members.std::vector<std::pair<int, float>>
+                            allNeighbors;
                     allNeighbors.insert(allNeighbors.end(), v.neighbors.begin(), v.neighbors.end());
-                    for (std::pair<int,float> u : v.neighbors) {
+                    for (std::pair<int, float> u : v.neighbors) {
                         auto& neighborsOfU = neighborsBroadcast.get(u.first);
                         // https://stackoverflow.com/questions/2551775/appending-a-vector-to-a-vector
-                        for (std::pair<int,float> x : neighborsOfU) {
+                        for (std::pair<int, float> x : neighborsOfU) {
                             if (x.first != v.id()) {
                                 allNeighbors.push_back(x);
                             }
@@ -321,7 +314,7 @@ void semicluster() {
                 }
 
                 if (changed) {
-                    for (auto &nb : v.neighbors) {
+                    for (auto& nb : v.neighbors) {
                         scch.push(v.clusters, nb.first);
                     }
                 }
@@ -339,26 +332,39 @@ void semicluster() {
         husky::LOG_I << time << "s elapsed.";
     }
 
-    // RESULT
-    
-    // TODO use aggregators
-    // husky::list_execute(vertex_list, [&cMax](SemiVertex &v) {
-    //     husky::LOG_I;
-    //     husky::LOG_I << " ------- For vertex: " << v.id();
-    //     v.clusters.resize(cMax);
+    husky::lib::Aggregator<std::vector<SemiCluster>> top_c_max(
+        std::vector<SemiCluster>(cMax),                                       // initial value
+        [](std::vector<SemiCluster>& a, const std::vector<SemiCluster>& b) {  // aggregation rule
+            for (SemiCluster c : b) {
+                a.push_back(c);
+            }
 
-    //     for (SemiCluster s : v.clusters) {
-    //         husky::LOG_I << printCluster(s);
-    //     }
-    //     husky::LOG_I << " ------ ";
-    // });
+            std::sort(a.begin(), a.end());
+            std::reverse(a.begin(), a.end());
 
-    // if (husky::Context::get_global_tid() == 0) {
-    // }
+            if (a.size() > cMax) {
+                a.resize(cMax);
+            }
+        });
+
+    auto& ac = husky::lib::AggregatorFactory::get_channel();
+
+    husky::list_execute(vertex_list, {}, {&ac}, [](SemiVertex& v) {
+        for (SemiCluster c : v.clusters) {
+            top_c_max.update(c);
+        }
+    });
+
+    // Print result
+    if (husky::Context::get_global_tid() == 0) {
+        for (SemiCluster s : top_c_max.get_value()) {
+            husky::LOG_I << printCluster(s);
+        }
+    }
 }
 
-int main(int argc, char **argv) {
-    std::vector <std::string> args;
+int main(int argc, char** argv) {
+    std::vector<std::string> args;
 
     // The graph file
     args.push_back("input");
