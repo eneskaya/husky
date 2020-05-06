@@ -292,9 +292,9 @@ void semicluster() {
                     // if (husky::Context::get_global_tid() == 0) {
                     //     husky::LOG_I << "Gather neighbors STARt...";
                     // }
-                    Gather all the neighbors of the member,
-                        so we have the complete neighbourhood of the cluster members.std::vector<std::pair<int, float>>
-                            allNeighbors;
+                    // Gather all the neighbors of the member,so we have the complete neighbourhood of the cluster members.
+
+                    std::vector<std::pair<int, float>> allNeighbors;
                     allNeighbors.insert(allNeighbors.end(), v.neighbors.begin(), v.neighbors.end());
                     for (std::pair<int, float> u : v.neighbors) {
                         auto& neighborsOfU = neighborsBroadcast.get(u.first);
@@ -334,7 +334,7 @@ void semicluster() {
 
     husky::lib::Aggregator<std::vector<SemiCluster>> top_c_max(
         std::vector<SemiCluster>(cMax),                                       // initial value
-        [](std::vector<SemiCluster>& a, const std::vector<SemiCluster>& b) {  // aggregation rule
+        [cMax](std::vector<SemiCluster>& a, const std::vector<SemiCluster>& b) {  // aggregation rule
             for (SemiCluster c : b) {
                 a.push_back(c);
             }
@@ -349,10 +349,8 @@ void semicluster() {
 
     auto& ac = husky::lib::AggregatorFactory::get_channel();
 
-    husky::list_execute(vertex_list, {}, {&ac}, [](SemiVertex& v) {
-        for (SemiCluster c : v.clusters) {
-            top_c_max.update(c);
-        }
+    husky::list_execute(vertex_list, {}, {&ac}, [&top_c_max](SemiVertex& v) {
+        top_c_max.update(v.clusters);
     });
 
     // Print result
